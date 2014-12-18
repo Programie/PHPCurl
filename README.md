@@ -1,3 +1,3 @@
 # PHPCurl
 
-An PHP OOP wrapper for Curl with some additional features.
+A PHP OOP wrapper for Curl with some additional features.
