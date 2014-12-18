@@ -1,0 +1,17 @@
+{
+	"name" : "programie/phpcurl",
+	"description" : "A PHP OOP wrapper for Curl with some additional features",
+	"minimum-stability" : "stable",
+	"license" : "",
+	"authors" : [
+		{
+			"name" : "Michael Wieland",
+			"email" : "phpcurl@selfcoders.com",
+			"homepage" : "http://selfcoders.com",
+			"role" : "Developer"
+		}
+	],
+	"autoload": {
+		"psr-4": {"" : "src/main/php"}
+	}
+}
