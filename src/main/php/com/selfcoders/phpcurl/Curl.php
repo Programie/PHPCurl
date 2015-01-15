@@ -281,13 +281,37 @@ class Curl
 	}
 
 	/**
+	 * Set the total number of retries of this instance.
+	 *
+	 * This is called by CurlMulti.
+	 *
+	 * @param int $count The new number of retries
+	 */
+	public function setRetryCount($count)
+	{
+		$this->retryCount = $count;
+	}
+
+	/**
+	 * Check whether the last request of this instance was successful.
+	 *
+	 * This method checks the HTTP status code against a defined list of status codes.
+	 *
+	 * @return bool true if the request was successful, false otherwise
+	 */
+	public function isSuccessful()
+	{
+		return in_array($this->getInfo(CURLINFO_HTTP_CODE), $this->okHttpStatusCodes);
+	}
+
+	/**
 	 * Retry if the previous request failed (returned a status code not defined in okHttpStatusCodes).
 	 *
 	 * @return bool Whether the request has been retried (true) or not (false)
 	 */
 	public function retryIfFailed()
 	{
-		if (in_array($this->getInfo(CURLINFO_HTTP_CODE), $this->okHttpStatusCodes))
+		if ($this->isSuccessful())
 		{
 			return false;
 		}

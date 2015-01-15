@@ -64,12 +64,28 @@ class CurlMulti
 
 		for ($retry = 1; $retry <= $retryCount; $retry++)
 		{
-			sleep($retryWait);
+			$retryRequired = false;
 
-			if (!$this->retryFailed())
+			/**
+			 * @var $curlInstance Curl
+			 */
+			foreach ($instances as $curlInstance)
+			{
+				if (!$curlInstance->isSuccessful())
+				{
+					$retryRequired = true;
+					break;
+				}
+			}
+
+			if (!$retryRequired)
 			{
 				break;
 			}
+
+			sleep($retryWait);
+
+			$this->retryFailed($instances);
 		}
 
 		/**
@@ -174,24 +190,51 @@ class CurlMulti
 	}
 
 	/**
-	 * Retry all failed requests.
+	 * Retry all failed requests of the given array of Curl instances.
+	 *
+	 * @param array $curlInstances An array of Curl instances of which failed ones should be retried
 	 *
 	 * @return int The number of failed requests which were retried.
 	 */
-	public function retryFailed()
+	public function retryFailed($curlInstances)
 	{
 		$failed = 0;
 
+		$curlMultiInstance = curl_multi_init();
+
 		/**
-		 * @var $instance Curl
+		 * @var $curlInstance Curl
 		 */
-		foreach ($this->curlInstances as $instance)
+		foreach ($curlInstances as $curlInstance)
 		{
-			if ($instance->retryIfFailed())
+			if ($curlInstance->isSuccessful())
 			{
-				$failed++;
+				continue;
 			}
+
+			$curlInstance->setRetryCount($curlInstance->getRetryCount());
+
+			curl_multi_add_handle($curlMultiInstance, $curlInstance->getHandle());
+
+			$failed++;
 		}
+
+		do
+		{
+			curl_multi_exec($curlMultiInstance, $stillRunning);
+			curl_multi_select($curlMultiInstance);
+		}
+		while ($stillRunning);
+
+		/**
+		 * @var $curlInstance Curl
+		 */
+		foreach ($curlInstances as $curlInstance)
+		{
+			$curlInstance->setContent(curl_multi_getcontent($curlInstance->getHandle()));
+		}
+
+		curl_multi_close($curlMultiInstance);
 
 		return $failed;
 	}
