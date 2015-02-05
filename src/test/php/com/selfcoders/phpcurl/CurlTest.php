@@ -56,7 +56,7 @@ class CurlTest extends PHPUnit_Framework_TestCase
 
 	public function testUnsuccessful()
 	{
-		$curl = new \com\selfcoders\phpcurl\Curl("http://httpbin.org/status/500");
+		$curl = new \com\selfcoders\phpcurl\Curl("http://httpbin.org/status/418");
 
 		$curl->setOpt(CURLOPT_RETURNTRANSFER, true);
 		$curl->setOpt(CURLOPT_USERAGENT, "PHPCurl");
@@ -65,7 +65,7 @@ class CurlTest extends PHPUnit_Framework_TestCase
 
 		$info = $curl->getInfo();
 
-		$this->assertEquals(500, $info["http_code"]);
+		$this->assertEquals(418, $info["http_code"]);
 		$this->assertFalse($curl->isSuccessful());
 	}
 
@@ -85,7 +85,7 @@ class CurlTest extends PHPUnit_Framework_TestCase
 
 	public function testRetryFailed()
 	{
-		$curl = new \com\selfcoders\phpcurl\Curl("http://httpbin.org/status/500");
+		$curl = new \com\selfcoders\phpcurl\Curl("http://httpbin.org/status/418");
 
 		$curl->setOpt(CURLOPT_RETURNTRANSFER, true);
 		$curl->setOpt(CURLOPT_USERAGENT, "PHPCurl");
