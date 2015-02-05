@@ -5,8 +5,11 @@ class CurlTest extends PHPUnit_Framework_TestCase
 	{
 		$curl = new \com\selfcoders\phpcurl\Curl("http://httpbin.org/get");
 
-		$curl->setOpt(CURLOPT_RETURNTRANSFER, true);
-		$curl->setOpt(CURLOPT_USERAGENT, "PHPCurl");
+		$curl->setOptsAsArray(array
+		(
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_USERAGENT => "PHPCurl"
+		));
 
 		$curl->exec();
 
@@ -20,6 +23,9 @@ class CurlTest extends PHPUnit_Framework_TestCase
 
 		$this->assertNull($curl->getHeaderFileHandle());
 		$this->assertNull($curl->getVerboseFileHandle());
+
+		$this->assertNull($curl->getHeaderContent());
+		$this->assertNull($curl->getVerboseContent());
 	}
 
 	public function testRedirectRequestNonFollowing()
@@ -127,5 +133,34 @@ class CurlTest extends PHPUnit_Framework_TestCase
 		$this->assertInternalType(PHPUnit_Framework_Constraint_IsType::TYPE_RESOURCE, $curl->getVerboseFileHandle());
 
 		$this->assertContains("> GET /status/418 HTTP/1.1", $curl->getVerboseContent());
+	}
+
+	public function testDnsError()
+	{
+		$curl = new \com\selfcoders\phpcurl\Curl("http://not.existing");
+
+		$curl->setOpt(CURLOPT_RETURNTRANSFER, true);
+		$curl->setOpt(CURLOPT_USERAGENT, "PHPCurl");
+
+		$curl->exec();
+
+		$this->assertEquals(CURLE_COULDNT_RESOLVE_HOST, $curl->getErrorNumber());
+		$this->assertEquals("Could not resolve host: not.existing", $curl->getErrorString());
+	}
+
+	public function testSettersGetters()
+	{
+		$curl = new \com\selfcoders\phpcurl\Curl("http://example.com");
+
+		$this->assertEquals("http://example.com", $curl->getOldUrl());
+
+		$curl->setOkHttpStatusCodes(array(200, 400));
+		$this->assertEquals(array(200, 400), $curl->getOkHttpStatusCodes());
+
+		$curl->setContent("New content");
+		$this->assertEquals("New content", $curl->getContent());
+
+		$curl->setRetryCount(10);
+		$this->assertEquals(10, $curl->getRetryCount());
 	}
 }
