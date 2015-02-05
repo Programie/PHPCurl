@@ -49,6 +49,8 @@ class CurlMultiTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(200, $curlMulti->getInstance("curl1")->getInfo(CURLINFO_HTTP_CODE));
 		$this->assertEquals(418, $curlMulti->getInstance("curl2")->getInfo(CURLINFO_HTTP_CODE));
 		$this->assertEquals(302, $curlMulti->getInstance("curl3")->getInfo(CURLINFO_HTTP_CODE));
+
+		$this->assertJson($curlMulti->getContent("curl1"));
 	}
 
 	public function testRetry()
