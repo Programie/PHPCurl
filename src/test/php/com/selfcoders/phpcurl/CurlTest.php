@@ -17,6 +17,9 @@ class CurlTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($curl->isSuccessful());
 
 		$this->assertInternalType(PHPUnit_Framework_Constraint_IsType::TYPE_RESOURCE, $curl->getHandle());
+
+		$this->assertNull($curl->getHeaderFileHandle());
+		$this->assertNull($curl->getVerboseFileHandle());
 	}
 
 	public function testRedirectRequestNonFollowing()
@@ -92,5 +95,37 @@ class CurlTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(0, $curl->getRetryCount());
 		$this->assertTrue($curl->retryIfFailed());
 		$this->assertEquals(1, $curl->getRetryCount());
+	}
+
+	public function testHeaders()
+	{
+		$curl = new \com\selfcoders\phpcurl\Curl("http://httpbin.org/status/418");
+
+		$curl->setOpt(CURLOPT_RETURNTRANSFER, true);
+		$curl->setOpt(CURLOPT_USERAGENT, "PHPCurl");
+
+		$curl->enableHeaderOutput();
+
+		$curl->exec();
+
+		$this->assertInternalType(PHPUnit_Framework_Constraint_IsType::TYPE_RESOURCE, $curl->getHeaderFileHandle());
+
+		$this->assertStringStartsWith("HTTP/1.1 418 I'M A TEAPOT", $curl->getHeaderContent());
+	}
+
+	public function testVerbose()
+	{
+		$curl = new \com\selfcoders\phpcurl\Curl("http://httpbin.org/status/418");
+
+		$curl->setOpt(CURLOPT_RETURNTRANSFER, true);
+		$curl->setOpt(CURLOPT_USERAGENT, "PHPCurl");
+
+		$curl->enableVerboseOutput();
+
+		$curl->exec();
+
+		$this->assertInternalType(PHPUnit_Framework_Constraint_IsType::TYPE_RESOURCE, $curl->getVerboseFileHandle());
+
+		$this->assertContains("> GET /status/418 HTTP/1.1", $curl->getVerboseContent());
 	}
 }
