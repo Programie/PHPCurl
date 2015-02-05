@@ -249,7 +249,7 @@ class CurlMulti
 				continue;
 			}
 
-			$curlInstance->setRetryCount($curlInstance->getRetryCount());
+			$curlInstance->setRetryCount($curlInstance->getRetryCount() + 1);
 
 			curl_multi_add_handle($curlMultiInstance, $curlInstance->getHandle());
 
