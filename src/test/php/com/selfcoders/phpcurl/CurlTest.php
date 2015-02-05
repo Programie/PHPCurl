@@ -1,9 +1,13 @@
 <?php
-class CurlTest extends PHPUnit_Framework_TestCase
+namespace com\selfcoders\phpcurl;
+
+use PHPUnit_Framework_Constraint_IsType;
+
+class CurlTest extends \PHPUnit_Framework_TestCase
 {
 	public function testGetRequest()
 	{
-		$curl = new \com\selfcoders\phpcurl\Curl("http://httpbin.org/get");
+		$curl = new Curl("http://httpbin.org/get");
 
 		$curl->setOptsAsArray(array
 		(
@@ -30,7 +34,7 @@ class CurlTest extends PHPUnit_Framework_TestCase
 
 	public function testRedirectRequestNonFollowing()
 	{
-		$curl = new \com\selfcoders\phpcurl\Curl("http://httpbin.org/redirect/1");
+		$curl = new Curl("http://httpbin.org/redirect/1");
 
 		$curl->setOpt(CURLOPT_RETURNTRANSFER, true);
 		$curl->setOpt(CURLOPT_USERAGENT, "PHPCurl");
@@ -45,7 +49,7 @@ class CurlTest extends PHPUnit_Framework_TestCase
 
 	public function testRedirectRequestFollowing()
 	{
-		$curl = new \com\selfcoders\phpcurl\Curl("http://httpbin.org/redirect/1");
+		$curl = new Curl("http://httpbin.org/redirect/1");
 
 		$curl->setOpt(CURLOPT_RETURNTRANSFER, true);
 		$curl->setOpt(CURLOPT_FOLLOWLOCATION, true);
@@ -62,7 +66,7 @@ class CurlTest extends PHPUnit_Framework_TestCase
 
 	public function testUnsuccessful()
 	{
-		$curl = new \com\selfcoders\phpcurl\Curl("http://httpbin.org/status/418");
+		$curl = new Curl("http://httpbin.org/status/418");
 
 		$curl->setOpt(CURLOPT_RETURNTRANSFER, true);
 		$curl->setOpt(CURLOPT_USERAGENT, "PHPCurl");
@@ -77,7 +81,7 @@ class CurlTest extends PHPUnit_Framework_TestCase
 
 	public function testRetryNonFailed()
 	{
-		$curl = new \com\selfcoders\phpcurl\Curl("http://httpbin.org/status/200");
+		$curl = new Curl("http://httpbin.org/status/200");
 
 		$curl->setOpt(CURLOPT_RETURNTRANSFER, true);
 		$curl->setOpt(CURLOPT_USERAGENT, "PHPCurl");
@@ -91,7 +95,7 @@ class CurlTest extends PHPUnit_Framework_TestCase
 
 	public function testRetryFailed()
 	{
-		$curl = new \com\selfcoders\phpcurl\Curl("http://httpbin.org/status/418");
+		$curl = new Curl("http://httpbin.org/status/418");
 
 		$curl->setOpt(CURLOPT_RETURNTRANSFER, true);
 		$curl->setOpt(CURLOPT_USERAGENT, "PHPCurl");
@@ -105,7 +109,7 @@ class CurlTest extends PHPUnit_Framework_TestCase
 
 	public function testHeaders()
 	{
-		$curl = new \com\selfcoders\phpcurl\Curl("http://httpbin.org/status/418");
+		$curl = new Curl("http://httpbin.org/status/418");
 
 		$curl->setOpt(CURLOPT_RETURNTRANSFER, true);
 		$curl->setOpt(CURLOPT_USERAGENT, "PHPCurl");
@@ -121,7 +125,7 @@ class CurlTest extends PHPUnit_Framework_TestCase
 
 	public function testVerbose()
 	{
-		$curl = new \com\selfcoders\phpcurl\Curl("http://httpbin.org/status/418");
+		$curl = new Curl("http://httpbin.org/status/418");
 
 		$curl->setOpt(CURLOPT_RETURNTRANSFER, true);
 		$curl->setOpt(CURLOPT_USERAGENT, "PHPCurl");
@@ -137,7 +141,7 @@ class CurlTest extends PHPUnit_Framework_TestCase
 
 	public function testDnsError()
 	{
-		$curl = new \com\selfcoders\phpcurl\Curl("http://not.existing");
+		$curl = new Curl("http://not.existing");
 
 		$curl->setOpt(CURLOPT_RETURNTRANSFER, true);
 		$curl->setOpt(CURLOPT_USERAGENT, "PHPCurl");
@@ -151,7 +155,7 @@ class CurlTest extends PHPUnit_Framework_TestCase
 
 	public function testSettersGetters()
 	{
-		$curl = new \com\selfcoders\phpcurl\Curl("http://example.com");
+		$curl = new Curl("http://example.com");
 
 		$this->assertEquals("http://example.com", $curl->getOldUrl());
 
