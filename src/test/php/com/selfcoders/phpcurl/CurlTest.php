@@ -145,7 +145,7 @@ class CurlTest extends PHPUnit_Framework_TestCase
 		$curl->exec();
 
 		$this->assertEquals(CURLE_COULDNT_RESOLVE_HOST, $curl->getErrorNumber());
-		$this->assertEquals("Could not resolve host: not.existing", $curl->getErrorString());
+		$this->assertStringEndsWith("resolve host: not.existing", $curl->getErrorString());
 	}
 
 	public function testSettersGetters()
