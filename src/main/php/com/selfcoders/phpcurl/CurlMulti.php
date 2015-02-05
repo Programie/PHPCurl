@@ -37,6 +37,43 @@ class CurlMulti
 	}
 
 	/**
+	 * Set the given cURL option for all previously added cURL instances.
+	 *
+	 * @param int $option The cURL option to set (CURLOPT_* constants)
+	 * @param mixed $value The new value for the option
+	 *
+	 * @see curl_setopt
+	 */
+	public function setOpt($option, $value)
+	{
+		/**
+		 * @var Curl $instance
+		 */
+		foreach ($this->curlInstances as $instance)
+		{
+			$instance->setOpt($option, $value);
+		}
+	}
+
+	/**
+	 * Set multiple cURL options for all previously added cURL instances.
+	 *
+	 * @param array $options An array containing the option as key and the new value as the element's value
+	 *
+	 * @see curl_setopt_array
+	 */
+	public function setOptsAsArray($options)
+	{
+		/**
+		 * @var Curl $instance
+		 */
+		foreach ($this->curlInstances as $instance)
+		{
+			$instance->setOptsAsArray($options);
+		}
+	}
+
+	/**
 	 * Execute the requests of all given Curl instances
 	 *
 	 * @param array $instances An array of Curl instances (key = name of instance)
