@@ -5,3 +5,8 @@ php:
   - 5.5
 install:
   - composer install
+script:
+  - mkdir -p build/logs
+  - phpunit --coverage-clover build/logs/clover.xml
+after_script:
+  - php vendor/satooshi/php-coveralls/composer/bin/coveralls -v
