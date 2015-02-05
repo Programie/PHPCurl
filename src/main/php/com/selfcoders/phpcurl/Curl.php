@@ -148,7 +148,7 @@ class Curl
 	/**
 	 * Get the content of the verbose output if enabled with setVerbose.
 	 *
-	 * @return array|null An array containing the lines of the verbose output or null if verbose mode was not enabled
+	 * @return string|null The verbose output or null if verbose mode was not enabled
 	 */
 	public function getVerboseContent()
 	{
@@ -159,13 +159,13 @@ class Curl
 
 		fseek($this->verboseFileHandle, 0);
 
-		$lines = array();
+		$content = "";
 		while ($line = fgets($this->verboseFileHandle))
 		{
-			$lines[] = $line;
+			$content .= $line;
 		}
 
-		return $lines;
+		return $content;
 	}
 
 	/**
