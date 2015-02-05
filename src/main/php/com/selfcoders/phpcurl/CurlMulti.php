@@ -237,7 +237,7 @@ class CurlMulti
 	{
 		$failed = 0;
 
-		$curlMultiInstance = curl_multi_init();
+		$curlMultiInstance = new CurlMulti();
 
 		/**
 		 * @var $curlInstance Curl
@@ -251,27 +251,12 @@ class CurlMulti
 
 			$curlInstance->setRetryCount($curlInstance->getRetryCount() + 1);
 
-			curl_multi_add_handle($curlMultiInstance, $curlInstance->getHandle());
+			$curlMultiInstance->addInstance($curlInstance);
 
 			$failed++;
 		}
 
-		do
-		{
-			curl_multi_exec($curlMultiInstance, $stillRunning);
-			curl_multi_select($curlMultiInstance);
-		}
-		while ($stillRunning);
-
-		/**
-		 * @var $curlInstance Curl
-		 */
-		foreach ($curlInstances as $curlInstance)
-		{
-			$curlInstance->setContent(curl_multi_getcontent($curlInstance->getHandle()));
-		}
-
-		curl_multi_close($curlMultiInstance);
+		$curlMultiInstance->exec();
 
 		return $failed;
 	}
