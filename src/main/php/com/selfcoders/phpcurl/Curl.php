@@ -146,7 +146,7 @@ class Curl
 	}
 
 	/**
-	 * Get the content of the verbose output if enabled with setVerbose.
+	 * Get the content of the verbose output if enabled with enableVerboseOutput.
 	 *
 	 * @return string|null The verbose output or null if verbose mode was not enabled
 	 */
@@ -263,7 +263,7 @@ class Curl
 	 *
 	 * The content of the verbose output can be retrieved later using getVerboseContent.
 	 */
-	public function setVerbose()
+	public function enableVerboseOutput()
 	{
 		$this->verboseFileHandle = tmpfile();
 		$this->setOpt(CURLOPT_VERBOSE, true);
