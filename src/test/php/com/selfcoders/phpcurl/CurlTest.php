@@ -120,7 +120,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertInternalType(PHPUnit_Framework_Constraint_IsType::TYPE_RESOURCE, $curl->getHeaderFileHandle());
 
-		$this->assertStringStartsWith("HTTP/1.1 418 I'M A TEAPOT", $curl->getHeaderContent());
+		$this->assertContains("HTTP/1.1 418 I'M A TEAPOT", $curl->getHeaderContent());
 	}
 
 	public function testVerbose()

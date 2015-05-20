@@ -125,7 +125,7 @@ class Curl
 	/**
 	 * Get the content of the header output if enabled with enabledHeaderOutput.
 	 *
-	 * @return string|null The header output or null if header output was not enabled
+	 * @return array|null The header output or null if header output was not enabled
 	 */
 	public function getHeaderContent()
 	{
@@ -136,19 +136,19 @@ class Curl
 
 		fseek($this->headerFileHandle, 0);
 
-		$content = "";
-		while ($line = fgets($this->headerFileHandle))
+		$lines = array();
+		while ($line = trim(fgets($this->headerFileHandle), "\n\r"))
 		{
-			$content .= $line;
+			$lines[] = $line;
 		}
 
-		return $content;
+		return $lines;
 	}
 
 	/**
 	 * Get the content of the verbose output if enabled with enableVerboseOutput.
 	 *
-	 * @return string|null The verbose output or null if verbose mode was not enabled
+	 * @return array|null The verbose output or null if verbose mode was not enabled
 	 */
 	public function getVerboseContent()
 	{
@@ -159,13 +159,13 @@ class Curl
 
 		fseek($this->verboseFileHandle, 0);
 
-		$content = "";
-		while ($line = fgets($this->verboseFileHandle))
+		$lines = array();
+		while ($line = trim(fgets($this->verboseFileHandle), "\n\r"))
 		{
-			$content .= $line;
+			$lines[] = $line;
 		}
 
-		return $content;
+		return $lines;
 	}
 
 	/**
