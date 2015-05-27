@@ -49,6 +49,9 @@ class Curl
 		$this->close();
 	}
 
+	/**
+	 * Close the internal cURL handle.
+	 */
 	public function close()
 	{
 		if (is_resource($this->handle))
@@ -57,11 +60,21 @@ class Curl
 		}
 	}
 
+	/**
+	 * Return the last error number.
+	 *
+	 * @return int The error number or 0 (zero) if no error occurred.
+	 */
 	public function getErrorNumber()
 	{
 		return curl_errno($this->handle);
 	}
 
+	/**
+	 * Return a string containing the last error for the current session.
+	 *
+	 * @return string The error message or '' (the empty string) if no error occurred.
+	 */
 	public function getErrorString()
 	{
 		return curl_error($this->handle);
@@ -80,7 +93,7 @@ class Curl
 	/**
 	 * Perform the cURL session.
 	 *
-	 * @return mixed The response of curl_exec
+	 * @return mixed True on success or false on failure. However, if the CURLOPT_RETURNTRANSFER option is set, it will return the result on success, false on failure.
 	 */
 	public function exec()
 	{
@@ -91,7 +104,7 @@ class Curl
 
 	/**
 	 * Get the content of the cURL session.
-	 * This is the same output as of curl_exec.
+	 * This is the same output as of the last call of curl_exec.
 	 *
 	 * @return string The content of the cURL session
 	 */
@@ -110,6 +123,13 @@ class Curl
 		return $this->handle;
 	}
 
+	/**
+	 * Get information regarding a specific transfer.
+	 *
+	 * @param int|null $option The option to get or null to get all information.
+	 *
+	 * @return mixed If $option is given, returns its value as a string. Otherwise, returns an associative array.
+	 */
 	public function getInfo($option = null)
 	{
 		if ($option)
