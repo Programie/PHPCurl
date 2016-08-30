@@ -109,7 +109,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
 
 	public function testHeaders()
 	{
-		$curl = new Curl("http://httpbin.org/status/418");
+		$curl = new Curl("http://httpbin.org/status/202");
 
 		$curl->setOpt(CURLOPT_RETURNTRANSFER, true);
 		$curl->setOpt(CURLOPT_USERAGENT, "PHPCurl");
@@ -120,7 +120,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertInternalType(PHPUnit_Framework_Constraint_IsType::TYPE_RESOURCE, $curl->getHeaderFileHandle());
 
-		$this->assertContains("HTTP/1.1 418 I'M A TEAPOT", $curl->getHeaderContent());
+		$this->assertContains("HTTP/1.1 202 Accepted", $curl->getHeaderContent());
 	}
 
 	public function testVerbose()
