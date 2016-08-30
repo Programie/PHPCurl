@@ -122,6 +122,7 @@ class CurlTest extends PHPUnit_Framework_TestCase
 		$this->assertInternalType(PHPUnit_Framework_Constraint_IsType::TYPE_RESOURCE, $curl->getHeaderFileHandle());
 
 		$this->assertContains("HTTP/1.1 202 Accepted", $curl->getHeaderContent());
+        var_dump($curl->getHeaderContent());
 	}
 
 	public function testVerbose()
