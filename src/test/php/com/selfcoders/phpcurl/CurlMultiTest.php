@@ -1,7 +1,9 @@
 <?php
 namespace com\selfcoders\phpcurl;
 
-class CurlMultiTest extends \PHPUnit_Framework_TestCase
+use PHPUnit_Framework_TestCase;
+
+class CurlMultiTest extends PHPUnit_Framework_TestCase
 {
 	public function testAddRemoveInstance()
 	{

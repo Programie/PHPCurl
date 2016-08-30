@@ -2,8 +2,9 @@
 namespace com\selfcoders\phpcurl;
 
 use PHPUnit_Framework_Constraint_IsType;
+use PHPUnit_Framework_TestCase;
 
-class CurlTest extends \PHPUnit_Framework_TestCase
+class CurlTest extends PHPUnit_Framework_TestCase
 {
 	public function testGetRequest()
 	{
