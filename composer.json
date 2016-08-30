@@ -2,7 +2,7 @@
     "name": "programie/phpcurl",
     "description": "A PHP OOP wrapper for Curl with some additional features",
     "minimum-stability": "stable",
-    "license": "",
+    "license": "MIT",
     "authors": [
         {
             "name": "Michael Wieland",
