@@ -4,14 +4,9 @@ namespace com\selfcoders\phpcurl;
 class CurlMulti
 {
 	/**
-	 * @var array An array holding all Curl instances
+	 * @var Curl[] An array holding all Curl instances
 	 */
-	private $curlInstances;
-
-	public function __construct()
-	{
-		$this->curlInstances = array();
-	}
+	private $curlInstances = array();
 
 	/**
 	 * Add a Curl instance to this Curl Multi instance
@@ -76,7 +71,7 @@ class CurlMulti
 	/**
 	 * Execute the requests of all given Curl instances
 	 *
-	 * @param array $instances An array of Curl instances (key = name of instance)
+	 * @param Curl[] $instances An array of Curl instances (key = name of instance)
 	 * @param int $retryCount The maximum number of retries
 	 * @param int $retryWait Time in seconds to wait between each try
 	 */
@@ -84,9 +79,6 @@ class CurlMulti
 	{
 		$curlMultiInstance = curl_multi_init();
 
-		/**
-		 * @var $curlInstance Curl
-		 */
 		foreach ($instances as $name => $curlInstance)
 		{
 			curl_multi_add_handle($curlMultiInstance, $curlInstance->getHandle());
@@ -103,9 +95,6 @@ class CurlMulti
 		{
 			$retryRequired = false;
 
-			/**
-			 * @var $curlInstance Curl
-			 */
 			foreach ($instances as $curlInstance)
 			{
 				if (!$curlInstance->isSuccessful())
@@ -125,9 +114,6 @@ class CurlMulti
 			$this->retryFailed($instances);
 		}
 
-		/**
-		 * @var $curlInstance Curl
-		 */
 		foreach ($instances as $curlInstance)
 		{
 			$curlInstance->setContent(curl_multi_getcontent($curlInstance->getHandle()));
@@ -168,9 +154,6 @@ class CurlMulti
 	 */
 	public function getContent($instanceName)
 	{
-		/**
-		 * @var $instance Curl
-		 */
 		$instance = $this->curlInstances[$instanceName];
 
 		return $instance->getContent();
@@ -191,7 +174,7 @@ class CurlMulti
 	/**
 	 * Get an array of all Curl instances
 	 *
-	 * @return array An array containing all Curl instances
+	 * @return Curl[] An array containing all Curl instances
 	 */
 	public function getInstances()
 	{
@@ -215,7 +198,7 @@ class CurlMulti
 	 *
 	 * @param mixed $instanceName The name of the instances as returned by addInstance
 	 *
-	 * $return Curl The removed instance
+	 * @return Curl The removed instance
 	 */
 	public function removeInstance($instanceName)
 	{
