@@ -115,8 +115,9 @@ class CurlMulti
      * @param int|null $maxRequests The maximum number of concurrent requests (null = infinite)
      * @param int $retryCount The maximum number of retries
      * @param int $retryWait Time in seconds to wait between each try
+     * @param int $waitBetweenChunks Time in seconds to wait between each chunk
      */
-    public function exec($maxRequests = null, $retryCount = 0, $retryWait = 0)
+    public function exec($maxRequests = null, $retryCount = 0, $retryWait = 0, $waitBetweenChunks = 0)
     {
         if ($maxRequests == null or $maxRequests <= 0) {
             $this->subExec($this->curlInstances, $retryCount, $retryWait);
@@ -127,6 +128,11 @@ class CurlMulti
 
         foreach ($instanceChunks as $index => $instances) {
             $this->subExec($instances, $retryCount, $retryWait);
+
+            // Wait for the given time if this is not the last chunk (to only wait between chunks)
+            if ($index != count($instanceChunks) - 1) {
+                sleep($waitBetweenChunks);
+            }
         }
     }
 
