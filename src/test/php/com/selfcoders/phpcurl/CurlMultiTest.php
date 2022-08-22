@@ -1,18 +1,18 @@
 <?php
 namespace com\selfcoders\phpcurl;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class CurlMultiTest extends PHPUnit_Framework_TestCase
+class CurlMultiTest extends TestCase
 {
     public function testAddRemoveInstance()
     {
         $curlMulti = new CurlMulti();
 
-        $curl0 = new Curl("http://example.com");
-        $curl1 = new Curl("http://example.com");
-        $curl2 = new Curl("http://example.com");
-        $curlCustomKey = new Curl("http://example.com");
+        $curl0 = new Curl("https://example.com");
+        $curl1 = new Curl("httsp://example.com");
+        $curl2 = new Curl("https://example.com");
+        $curlCustomKey = new Curl("https://example.com");
 
         $this->assertEquals(0, $curlMulti->addInstance($curl0));
         $this->assertEquals(1, $curlMulti->addInstance($curl1));
@@ -35,9 +35,9 @@ class CurlMultiTest extends PHPUnit_Framework_TestCase
     {
         $curlMulti = new CurlMulti();
 
-        $curl1 = new Curl("http://httpbin.org/get");
-        $curl2 = new Curl("http://httpbin.org/status/418");
-        $curl3 = new Curl("http://httpbin.org/redirect/1");
+        $curl1 = new Curl("https://httpbin.org/get");
+        $curl2 = new Curl("https://httpbin.org/status/418");
+        $curl3 = new Curl("https://httpbin.org/redirect/1");
 
         $curlMulti->addInstance($curl1, "curl1");
         $curlMulti->addInstance($curl2, "curl2");
@@ -59,9 +59,9 @@ class CurlMultiTest extends PHPUnit_Framework_TestCase
     {
         $curlMulti = new CurlMulti();
 
-        $curl1 = new Curl("http://httpbin.org/get");
-        $curl2 = new Curl("http://httpbin.org/status/418");
-        $curl3 = new Curl("http://httpbin.org/redirect/1");
+        $curl1 = new Curl("https://httpbin.org/get");
+        $curl2 = new Curl("https://httpbin.org/status/418");
+        $curl3 = new Curl("https://httpbin.org/redirect/1");
 
         $curlMulti->addInstance($curl1, "curl1");
         $curlMulti->addInstance($curl2, "curl2");
@@ -92,12 +92,12 @@ class CurlMultiTest extends PHPUnit_Framework_TestCase
     {
         $curlMulti = new CurlMulti();
 
-        $curl1 = new Curl("http://httpbin.org/get");
-        $curl2 = new Curl("http://httpbin.org/status/418");
-        $curl3 = new Curl("http://httpbin.org/redirect/1");
-        $curl4 = new Curl("http://httpbin.org/redirect/2");
-        $curl5 = new Curl("http://httpbin.org/redirect/3");
-        $curl6 = new Curl("http://httpbin.org/redirect/4");
+        $curl1 = new Curl("https://httpbin.org/get");
+        $curl2 = new Curl("https://httpbin.org/status/418");
+        $curl3 = new Curl("https://httpbin.org/redirect/1");
+        $curl4 = new Curl("https://httpbin.org/redirect/2");
+        $curl5 = new Curl("https://httpbin.org/redirect/3");
+        $curl6 = new Curl("https://httpbin.org/redirect/4");
 
         $curl6->setOpt(CURLOPT_FOLLOWLOCATION, true);
 
