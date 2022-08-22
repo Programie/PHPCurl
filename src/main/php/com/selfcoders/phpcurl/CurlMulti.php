@@ -83,6 +83,12 @@ class CurlMulti
             curl_multi_select($curlMultiInstance);
         } while ($stillRunning);
 
+        foreach ($instances as $curlInstance) {
+            $curlInstance->setContent(curl_multi_getcontent($curlInstance->getHandle()));
+        }
+
+        curl_multi_close($curlMultiInstance);
+
         for ($retry = 1; $retry <= $retryCount; $retry++) {
             $retryRequired = false;
 
@@ -101,12 +107,6 @@ class CurlMulti
 
             $this->retryFailed($instances);
         }
-
-        foreach ($instances as $curlInstance) {
-            $curlInstance->setContent(curl_multi_getcontent($curlInstance->getHandle()));
-        }
-
-        curl_multi_close($curlMultiInstance);
     }
 
     /**
